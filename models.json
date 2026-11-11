@@ -1,0 +1,42 @@
+[
+  {
+    "path": "models/checkpoints/v1-5-pruned-emaonly-fp16.safetensors",
+    "url": "https://huggingface.co/Comfy-Org/stable-diffusion-1.5/resolve/main/v1-5-pruned-emaonly-fp16.safetensors",
+    "sha256": "e9476a13728cd75d8279f6ec8bad753a66a1957ca375a1464dc63b37db6e3916"
+  },
+  {
+    "path": "models/ipadapter/ip-adapter-plus_sd15.safetensors",
+    "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter-plus_sd15.safetensors",
+    "sha256": "a1c250be40455cc61a43da1201ec3f1edaea71214865fb47f57927e06cbe4996"
+  },
+  {
+    "path": "models/clip_vision/CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors",
+    "url": "https://huggingface.co/Comfy-Org/Wan-2.1/resolve/main/split_files/clip_vision/clip_vision_h.safetensors",
+    "sha256": "64a7ef761bfccbadbaa3da77366aac4185a6c58fa5de5f589b42a65bcc21f161"
+  },
+  {
+    "path": "models/LLM/Florence-2-base/config.json",
+    "url": "https://huggingface.co/microsoft/Florence-2-base/resolve/main/config.json",
+    "sha256": "c666d0fe0172d46e115e8fba6cd93cd83714575b33a73005cab8d24ce2a3aa8f"
+  },
+  {
+    "path": "models/LLM/Florence-2-base/tokenizer.json",
+    "url": "https://huggingface.co/microsoft/Florence-2-base/resolve/main/tokenizer.json",
+    "sha256": "847bbeab6174d66a88898f729d52fa8d355fafe1bea101cf960dd404581df70e"
+  },
+  {
+    "path": "models/LLM/Florence-2-base/preprocessor_config.json",
+    "url": "https://huggingface.co/microsoft/Florence-2-base/resolve/main/preprocessor_config.json",
+    "sha256": "2f5921bbc53c7cc04251e1027b45b1cec726276be6db23d1bb40641bfbe2cf29"
+  },
+  {
+    "path": "models/LLM/Florence-2-base/tokenizer_config.json",
+    "url": "https://huggingface.co/microsoft/Florence-2-base/resolve/main/tokenizer_config.json",
+    "sha256": "79ffcf43af8ebda99d165f61d243180da2e2639952e41e71e11611c18770489c"
+  },
+  {
+    "path": "models/LLM/Florence-2-base/model.safetensors",
+    "url": "https://huggingface.co/microsoft/Florence-2-base/resolve/main/model.safetensors",
+    "sha256": "03075d2d2d2bbd3e180b9ba0afae4aa8563226e2d32911656966e05b2f2ee060"
+  }
+]
