@@ -26,7 +26,20 @@ A local web tool that captions a reference image with Florence2, then generates 
 
 真实推理测试环境：Apple M5、16 GB 统一内存、macOS、Python 3.12.15、PyTorch 2.15.0、ComfyUI 0.45.0。Windows / Linux / NVIDIA 的真实推理尚未验证；CI 仅测试客户端逻辑。
 
-## 1. 安装 ComfyUI 节点
+## 1. 安装本工具
+
+```bash
+git clone https://github.com/lsy1250732908-eng/reference-image-studio.git
+cd reference-image-studio
+python -m venv .venv
+source .venv/bin/activate
+# Windows PowerShell: .venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+```
+
+客户端使用独立虚拟环境。后续安装 ComfyUI 节点时，请切换到 ComfyUI 自己的 Python 环境。
+
+## 2. 安装 ComfyUI 节点
 
 在 **ComfyUI 的 Python 环境**中执行，已安装时不要重复克隆：
 
@@ -47,7 +60,7 @@ python -m pip install -r ComfyUI-Florence2/requirements.txt
 
 ComfyUI 及节点分别从上游安装并保留各自许可证。本项目不复制它们的实现。
 
-## 2. 安装配套模型
+## 3. 安装配套模型
 
 | 模型 | 放置位置（相对 ComfyUI） |
 | --- | --- |
@@ -56,7 +69,7 @@ ComfyUI 及节点分别从上游安装并保留各自许可证。本项目不复
 | [CLIP Vision H](https://huggingface.co/Comfy-Org/Wan-2.1/tree/main/split_files/clip_vision) | `models/clip_vision/CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors` |
 | [Florence-2-base](https://huggingface.co/microsoft/Florence-2-base) | `models/LLM/Florence-2-base/`（权重、config、tokenizer、preprocessor 等） |
 
-仓库提供下载脚本，下载约 4 GB，按清单校验 SHA-256。先安装下一步的客户端依赖，再运行：
+仓库提供下载脚本，下载约 4 GB，按清单校验 SHA-256。在本项目目录、已激活客户端虚拟环境的终端运行：
 
 ```bash
 python scripts/download_models.py --comfy-dir /path/to/ComfyUI
@@ -71,19 +84,15 @@ cd /path/to/ComfyUI
 python main.py --listen 127.0.0.1 --port 8188 --fp32-vae
 ```
 
-## 3. 启动工具
+## 4. 启动工具
+
+在本项目目录、已激活客户端虚拟环境的终端运行：
 
 ```bash
-git clone https://github.com/lsy1250732908-eng/reference-image-studio.git
-cd reference-image-studio
-python -m venv .venv
-source .venv/bin/activate
-# Windows PowerShell: .venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
 python app.py
 ```
 
-打开 **http://127.0.0.1:7860**。如 ComfyUI 端口不同：
+打开 [本地网页](http://127.0.0.1:7860)。如 ComfyUI 端口不同：
 
 ```bash
 python app.py --comfy-url http://127.0.0.1:8189 --port 7861
@@ -130,6 +139,7 @@ python scripts/smoke_test.py examples/reference.png --output outputs/smoke
 - **缺少节点/模型**：按错误提示安装并重启 ComfyUI。请选择 SD 1.5 系列 checkpoint，当前不支持 SDXL、Flux 或 FaceID。
 - **内存不足**：关闭其他占内存应用，使用 512×512；Florence2 默认 FP32，并在描述完成后卸载。
 - **任务失败**：界面显示 ComfyUI 返回的错误；同时检查 ComfyUI 终端。
+- **短暂查询超时**：推理负载高时，状态查询会自动重试，不会重复提交生成任务。
 - **超时**：客户端最多等待 30 分钟，超时不会取消 ComfyUI 队列。到 ComfyUI 检查任务，避免重复提交。关闭本网页也不会取消已经提交的任务。
 
 ## 许可与致谢

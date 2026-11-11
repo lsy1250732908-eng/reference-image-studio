@@ -36,7 +36,7 @@ python app.py --comfy-url http://127.0.0.1:8188
 
 Open http://127.0.0.1:7860. The interface is Chinese: the primary button runs the full pipeline; the lower buttons caption only or generate with the editable prompt. Settings control seed, steps, image dimensions and reference strength. Output PNG and parameter/workflow JSON files are saved to `outputs/` and offered as downloads. Only one job runs at a time. Refreshing restores the active job; restarting the server clears in-memory job history.
 
-The UI listens on loopback only and has no login system. It is intended for local use. If you configure a remote ComfyUI URL, images and prompts are sent to that server. Model loading can take several minutes. The client waits up to 30 minutes; timeout or closing the UI does not cancel the ComfyUI job.
+The UI listens on loopback only and has no login system. It is intended for local use. If you configure a remote ComfyUI URL, images and prompts are sent to that server. Model loading can take several minutes. Transient status-query timeouts are retried without resubmitting the generation job. The client waits up to 30 minutes; timeout or closing the UI does not cancel the ComfyUI job.
 
 ## Prompt behavior
 

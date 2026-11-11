@@ -108,9 +108,19 @@ class ComfyClient:
         prompt_id = result["prompt_id"]
         if submitted:
             submitted(prompt_id)
+        return self.wait(prompt_id, timeout)
+
+    def wait(self, prompt_id, timeout=1800):
+        """Wait for an existing submission without submitting it again."""
         deadline = time.monotonic() + timeout
         while time.monotonic() < deadline:
-            history = self.request("GET", f"/history/{prompt_id}").json().get(prompt_id)
+            try:
+                history = self.request("GET", f"/history/{prompt_id}").json().get(prompt_id)
+            except (requests.Timeout, requests.ConnectionError):
+                # A busy backend can stall a status query while inference keeps running.
+                # Retry only this read; repeating POST /prompt could create duplicate jobs.
+                time.sleep(1)
+                continue
             if history:
                 status = history.get("status", {})
                 if status.get("status_str") == "error":
