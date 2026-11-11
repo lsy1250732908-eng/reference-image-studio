@@ -8,6 +8,7 @@ import unittest
 from unittest.mock import Mock, patch
 
 from PIL import Image
+import requests
 
 from app import Studio, validate_options
 from pipeline import ComfyClient, caption_graph, combined_graph, compose_prompt, generation_graph
@@ -63,6 +64,34 @@ class PipelineTests(unittest.TestCase):
         client.request = Mock(return_value=Mock(json=lambda: {"prompt_id": "p"}))
         with self.assertRaisesRegex(TimeoutError, "may still be queued/running"):
             client.run(caption_graph("ref.png"), timeout=0)
+
+    @patch("pipeline.time.sleep")
+    def test_status_query_timeout_recovers_without_resubmitting(self, sleep):
+        client = ComfyClient()
+        history = {"status": {"completed": True, "status_str": "success"}, "outputs": {}}
+        client.request = Mock(side_effect=[Mock(json=lambda: {"prompt_id": "p"}),
+                                          requests.ReadTimeout("busy"),
+                                          requests.ConnectionError("temporarily unavailable"),
+                                          Mock(json=lambda: {"p": history})])
+        self.assertEqual(client.run(caption_graph("ref.png")), history)
+        methods = [call.args[0] for call in client.request.call_args_list]
+        self.assertEqual(methods, ["POST", "GET", "GET", "GET"])
+
+    @patch("pipeline.time.sleep")
+    def test_status_query_retries_respect_overall_deadline(self, sleep):
+        client = ComfyClient()
+        client.request = Mock(side_effect=requests.ReadTimeout("busy"))
+        with patch("pipeline.time.monotonic", side_effect=[0, 0, 2]):
+            with self.assertRaisesRegex(TimeoutError, "may still be queued/running"):
+                client.wait("existing-prompt", timeout=1)
+        self.assertEqual(client.request.call_count, 1)
+
+    def test_http_status_error_is_not_retried(self):
+        client = ComfyClient()
+        client.request = Mock(side_effect=RuntimeError("ComfyUI 404"))
+        with self.assertRaisesRegex(RuntimeError, "404"):
+            client.wait("existing-prompt")
+        self.assertEqual(client.request.call_count, 1)
 
     def test_empty_caption_fails(self):
         client = ComfyClient()
