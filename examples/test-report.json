@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "test": "real HTTP upload → Florence2 → prompt → IP-Adapter → PNG",
+  "caption": "The image is a portrait of a woman with short black hair and glasses. She is wearing a navy blue turtleneck sweater and has a serious expression on her face. The background is a light green circle with large green leaves scattered around it. The leaves are arranged in a symmetrical pattern around the woman's head. The overall style of the illustration is minimalistic and cartoon-like.",
+  "prompt": "watercolor illustration, soft natural light, The image is a portrait of a woman with short black hair and glasses. She is wearing a navy blue turtleneck sweater and has a serious expression on her face. The background is a light green circle with large green leaves scattered around it. The leaves are arranged in a symmetrical pattern around the woman's head. The overall style of the illustration is minimalistic and cartoon-like.",
+  "seconds": 365.27,
+  "image_size": [
+    512,
+    512
+  ],
+  "options": {
+    "seed": 73,
+    "steps": 20,
+    "width": 512,
+    "height": 512,
+    "weight": 0.55,
+    "checkpoint": "v1-5-pruned-emaonly-fp16.safetensors",
+    "negative": "blurry, low quality, deformed face, extra limbs, text, watermark"
+  },
+  "date": "2026-11-12",
+  "hardware": "Apple M5, 16 GB unified memory",
+  "runtime": {
+    "python": "3.12.15",
+    "torch": "2.15.0",
+    "comfyui": "0.45.0"
+  }
+}
